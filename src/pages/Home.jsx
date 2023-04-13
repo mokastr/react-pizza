@@ -27,7 +27,7 @@ const Home = () => {
 		const search = searchValue ? `&search=${searchValue}` : ''
 
 		fetch(
-			`https://64182e9275be53f451d80d40.mockapi.io/react-pizza-items?page=${currentPage}&limit=4${category}${search}&sortBy=${sortBy}&order=${order}}`
+			`https://64182e9275be53f451d80d40.mockapi.io/react-pizza-items?page=${currentPage}&limit=4${category}${search}&sortBy=${sortBy}&order=${order}`
 		)
 			.then(res => res.json())
 			.then(json => setItems(json))
