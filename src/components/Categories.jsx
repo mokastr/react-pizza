@@ -1,12 +1,13 @@
+const categories = [
+	{ name: 'Все' },
+	{ name: 'Мясные' },
+	{ name: 'Вегетарианская' },
+	{ name: 'Гриль' },
+	{ name: 'Острые' },
+	{ name: 'Закрытые' },
+]
+
 const Categories = ({ value, onChangeCategory }) => {
-	const categories = [
-		{ name: 'Все' },
-		{ name: 'Мясные' },
-		{ name: 'Вегетарианская' },
-		{ name: 'Гриль' },
-		{ name: 'Острые' },
-		{ name: 'Закрытые' },
-	]
 	return (
 		<div className="categories">
 			<ul>
