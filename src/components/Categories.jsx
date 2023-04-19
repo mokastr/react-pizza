@@ -1,4 +1,4 @@
-const categories = [
+export const categories = [
 	{ name: 'Все' },
 	{ name: 'Мясные' },
 	{ name: 'Вегетарианская' },

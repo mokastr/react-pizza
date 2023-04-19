@@ -7,8 +7,9 @@ import React from 'react'
 const Search = () => {
 	const [value, setValue] = useState('')
 	const { setSearchValue } = useContext(SearchContext)
-	const inputRef = useRef()
+	// const inputRef = useRef()
 
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const updateSearchValue = useCallback(
 		debounce(string => {
 			setSearchValue(string)
@@ -27,7 +28,7 @@ const Search = () => {
 	const onClickClear = () => {
 		setValue('')
 		setSearchValue('')
-		inputRef.current.focus()
+		// inputRef.current.focus()
 	}
 
 	const onChangeInput = e => {
@@ -68,7 +69,7 @@ const Search = () => {
 				/>
 			</svg>
 			<input
-				ref={inputRef}
+				// ref={inputRef}
 				value={value}
 				onChange={onChangeInput}
 				className={styles.input}
