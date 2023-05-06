@@ -12,7 +12,6 @@ const initialState = {
 const filterSlice = createSlice({
 	name: 'filters',
 	initialState,
-	// redusers === filterSlice.actions - в нем хранятся все методы
 	reducers: {
 		setCategoryId(state, action) {
 			state.categoryId = action.payload
@@ -30,6 +29,9 @@ const filterSlice = createSlice({
 		},
 	},
 })
+
+export const selectFilter = state => state.filter
+export const selectSort = state => state.filter.sort
 
 export const { setCategoryId, setSort, setCurrentPage, setFilters } =
 	filterSlice.actions
