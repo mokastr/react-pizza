@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import qs from 'qs'
 
 import Categories from '../components/Categories'
@@ -79,12 +79,16 @@ const Home = () => {
 		}
 	}, [])
 
-	// Если был первый рендер, то запрашиваем пиццы
+	// Парсим параметры при первом рендере
 	useEffect(() => {
 		getPizzas()
 	}, [categoryId, sort.sortProperty, searchValue, currentPage])
 
-	const pizzas = items.map(obj => <PizzaBlock key={obj.id} {...obj} />)
+	const pizzas = items.map(obj => (
+		<Link key={obj.id} to={`/pizza/${obj.id}`}>
+			<PizzaBlock {...obj} />
+		</Link>
+	))
 	const skeletons = [...Array(6)].map((_, i) => <Skeleton key={i} />)
 
 	return (
