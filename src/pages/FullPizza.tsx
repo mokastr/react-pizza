@@ -3,10 +3,14 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
-const FullPizza = () => {
+const FullPizza: React.FC = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
-	const [pizza, setPizza] = useState()
+	const [pizza, setPizza] = useState<{
+		imageUrl: string
+		title: string
+		price: number
+	}>()
 
 	useEffect(() => {
 		async function fetchPizza() {
@@ -23,8 +27,15 @@ const FullPizza = () => {
 		fetchPizza()
 	}, [])
 
+	// pizza : {imageUrl: string, title: string price: number} | undefined
+	//  Чтобы исключить undefined надо или сделать проверку, или задать для каждого свойства начальный state ( useState({imageUrl: "", title: "", price: 0}) )
+
 	if (!pizza) {
-		return 'Загрузка...'
+		return (
+			<div className="container">
+				<h2>Загрузка...</h2>
+			</div>
+		)
 	}
 
 	return (

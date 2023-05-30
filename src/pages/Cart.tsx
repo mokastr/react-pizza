@@ -8,7 +8,10 @@ const Cart = () => {
 	const dispatch = useDispatch()
 	const { totalPrice, items } = useSelector(selectCart)
 
-	const totalCount = items.reduce((sum, item) => item.count + sum, 0)
+	const totalCount = items.reduce(
+		(sum: number, item: any) => item.count + sum,
+		0
+	)
 
 	const onClickClear = () => {
 		if (window.confirm('Очистить корзину?')) {
@@ -98,7 +101,8 @@ const Cart = () => {
 				</div>
 				<div className="content__items">
 					{items.map(
-						items => items.count > 0 && <CartItem key={items.id} {...items} />
+						(items: any) =>
+							items.count > 0 && <CartItem key={items.id} {...items} />
 					)}
 				</div>
 				<div className="cart__bottom">

@@ -1,3 +1,5 @@
+type CategoriesProps = { value: number; onChangeCategory: (i: number) => void }
+
 export const categories = [
 	{ name: 'Все' },
 	{ name: 'Мясные' },
@@ -7,7 +9,7 @@ export const categories = [
 	{ name: 'Закрытые' },
 ]
 
-const Categories = ({ value, onChangeCategory }) => {
+const Categories: React.FC<CategoriesProps> = ({ value, onChangeCategory }) => {
 	return (
 		<div className="categories">
 			<ul>
