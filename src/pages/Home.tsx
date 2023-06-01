@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import qs from 'qs'
 
 import Categories from '../components/Categories'
-import Sort, { sortList } from '../components/Sort'
+import SortPopup, { sortList } from '../components/SortPopup'
 import PizzaBlock from '../components/PizzaBlock'
 import Skeleton from '../components/PizzaBlock/Skeleton'
 import Pagination from '../components/Pagination'
@@ -14,7 +14,11 @@ import {
 	setCurrentPage,
 	setFilters,
 } from '../redux/slices/filterSlice'
-import { fetchPizzas, selectPizzaData } from '../redux/slices/pizzaSlice'
+import {
+	fetchPizzas,
+	SearchPizzaParams,
+	selectPizzaData,
+} from '../redux/slices/pizzaSlice'
 import { useAppDispatch } from '../redux/store'
 
 const Home: React.FC = () => {
@@ -69,13 +73,21 @@ const Home: React.FC = () => {
 	// Если был первый рендер, то проверяем URl-параметры и сохраняем в редуксе
 	useEffect(() => {
 		if (window.location.search) {
-			const params = qs.parse(window.location.search.substring(1))
+			const params = qs.parse(
+				window.location.search.substring(1)
+			) as unknown as SearchPizzaParams
 
-			const sort = sortList.find(
-				obj => obj.sortProperty === params.sortProperty
+			const sort = sortList.find(obj => obj.sortProperty === params.sortBy)
+
+			dispatch(
+				setFilters({
+					searchValue: params.search,
+					categoryId: Number(params.category),
+					currentPage: Number(params.currentPage),
+					sort: sort || sortList[0],
+				})
 			)
 
-			dispatch(setFilters({ ...params, sort }))
 			isSearch.current = true
 		}
 	}, [])
@@ -85,18 +97,14 @@ const Home: React.FC = () => {
 		getPizzas()
 	}, [categoryId, sort.sortProperty, searchValue, currentPage])
 
-	const pizzas = items.map((obj: any) => (
-		<Link key={obj.id} to={`/pizza/${obj.id}`}>
-			<PizzaBlock {...obj} />
-		</Link>
-	))
+	const pizzas = items.map((obj: any, id) => <PizzaBlock key={id} {...obj} />)
 	const skeletons = [...Array(6)].map((_, i) => <Skeleton key={i} />)
 
 	return (
 		<div className="container">
 			<div className="content__top">
 				<Categories value={categoryId} onChangeCategory={onChangeCategory} />
-				<Sort />
+				<SortPopup />
 			</div>
 			<h2 className="content__title">Все пиццы</h2>
 			{status === 'error' ? (

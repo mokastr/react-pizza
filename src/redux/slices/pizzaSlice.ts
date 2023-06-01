@@ -12,7 +12,7 @@ type Pizza = {
 	rating: number
 }
 
-type FetchPizzasArgs = {
+export type SearchPizzaParams = {
 	sortBy: string
 	order: string
 	category: string
@@ -36,9 +36,9 @@ const initialState: PizzaSliceState = {
 	status: Status.LOADING,
 }
 
-export const fetchPizzas = createAsyncThunk<Pizza[], FetchPizzasArgs>(
+export const fetchPizzas = createAsyncThunk<Pizza[], SearchPizzaParams>(
 	'pizza/fetchPizzasStatus',
-	async (params: FetchPizzasArgs) => {
+	async (params: SearchPizzaParams) => {
 		const { sortBy, order, category, search, currentPage } = params
 		const { data } = await axios.get<Pizza[]>(
 			`https://64182e9275be53f451d80d40.mockapi.io/react-pizza-items?page=${currentPage}&limit=4${search}${category}&sortBy=${sortBy}&order=${order}`

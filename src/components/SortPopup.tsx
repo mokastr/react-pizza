@@ -1,29 +1,33 @@
 import { useState, useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectSort, setSort } from '../redux/slices/filterSlice'
+import {
+	selectSort,
+	setSort,
+	SortPropertyEnum,
+} from '../redux/slices/filterSlice'
 
-type SortListItem = {
+type SortItem = {
 	name: string
-	sortProperty: string
+	sortProperty: SortPropertyEnum
 }
 
-export const sortList: SortListItem[] = [
-	{ name: 'популярности (DESC)', sortProperty: 'rating' },
-	{ name: 'популярности (ASC)', sortProperty: '-rating' },
-	{ name: 'цене (DESC)', sortProperty: 'price' },
-	{ name: 'цене (ASC)', sortProperty: '-price' },
-	{ name: 'алфавиту (DESC)', sortProperty: 'title' },
-	{ name: 'алфавиту (ASC)', sortProperty: '-title' },
+export const sortList: SortItem[] = [
+	{ name: 'популярности (DESC)', sortProperty: SortPropertyEnum.RATING_DESC },
+	{ name: 'популярности (ASC)', sortProperty: SortPropertyEnum.RATING_ASC },
+	{ name: 'цене (DESC)', sortProperty: SortPropertyEnum.PRICE_DESC },
+	{ name: 'цене (ASC)', sortProperty: SortPropertyEnum.PRICE_ASC },
+	{ name: 'алфавиту (DESC)', sortProperty: SortPropertyEnum.TITLE_DESC },
+	{ name: 'алфавиту (ASC)', sortProperty: SortPropertyEnum.TITLE_ASC },
 ]
 
-const Sort: React.FC = () => {
+const SortPopup: React.FC = () => {
 	const dispatch = useDispatch()
 	const sort = useSelector(selectSort)
 	const sortRef = useRef<HTMLDivElement>(null)
 
 	const [open, setOpen] = useState(false)
 
-	const onClickListItem = (obj: SortListItem) => {
+	const onClickListItem = (obj: SortItem) => {
 		dispatch(setSort(obj))
 		setOpen(false)
 	}
@@ -60,7 +64,7 @@ const Sort: React.FC = () => {
 			{open && (
 				<div className="sort__popup">
 					<ul>
-						{sortList.map((obj: SortListItem, i) => (
+						{sortList.map((obj: SortItem, i) => (
 							<li
 								key={i}
 								onClick={() => onClickListItem(obj)}
@@ -78,4 +82,4 @@ const Sort: React.FC = () => {
 	)
 }
 
-export default Sort
+export default SortPopup
