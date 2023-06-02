@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux'
 
 import Search from './Search'
 import { selectCart } from '../redux/slices/cartSlice'
+import { useEffect, useRef } from 'react'
 
 const Header: React.FC = () => {
 	const { items, totalPrice } = useSelector(selectCart)
@@ -14,6 +15,16 @@ const Header: React.FC = () => {
 		(sum: number, item: any) => item.count + sum,
 		0
 	)
+
+	const isMounted = useRef(false)
+
+	useEffect(() => {
+		if (isMounted.current) {
+			const json = JSON.stringify(items)
+			localStorage.setItem('cart', json)
+		}
+		isMounted.current = true
+	}, [items])
 
 	return (
 		<div className="header">

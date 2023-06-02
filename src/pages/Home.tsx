@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import qs from 'qs'
@@ -39,7 +39,7 @@ const Home: React.FC = () => {
 		dispatch(setCurrentPage(page))
 	}
 
-	const getPizzas = () => {
+	const getPizzas = useCallback(() => {
 		const sortBy = sort.sortProperty.replace('-', '')
 		const order = sort.sortProperty.includes('-') ? 'asc' : 'desc'
 		const category = categoryId > 0 ? `&category=${categoryId}` : ''
@@ -54,8 +54,7 @@ const Home: React.FC = () => {
 				currentPage: String(currentPage),
 			})
 		)
-		window.scrollTo(0, 0)
-	}
+	}, [dispatch, categoryId, currentPage, searchValue, sort])
 
 	// Если изменили параметры и был первый рендер
 	useEffect(() => {
@@ -68,7 +67,7 @@ const Home: React.FC = () => {
 			navigate(`?${queryString}`)
 		}
 		isMounted.current = true
-	}, [categoryId, sort.sortProperty, currentPage])
+	}, [categoryId, sort.sortProperty, currentPage, navigate])
 
 	// Если был первый рендер, то проверяем URl-параметры и сохраняем в редуксе
 	useEffect(() => {
@@ -90,12 +89,12 @@ const Home: React.FC = () => {
 
 			isSearch.current = true
 		}
-	}, [])
+	}, [dispatch])
 
 	// Парсим параметры при первом рендере
 	useEffect(() => {
 		getPizzas()
-	}, [categoryId, sort.sortProperty, searchValue, currentPage])
+	}, [categoryId, sort.sortProperty, searchValue, currentPage, getPizzas])
 
 	const pizzas = items.map((obj: any, id) => <PizzaBlock key={id} {...obj} />)
 	const skeletons = [...Array(6)].map((_, i) => <Skeleton key={i} />)

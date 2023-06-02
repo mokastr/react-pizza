@@ -56,18 +56,15 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
 				</Link>
 				<div className="pizza-block__selector">
 					<ul>
-						{
-							//  Разобрать момент с отображение типов пиццы
-							types.map((typeId, index) => (
-								<li
-									key={typeId}
-									onClick={() => setActiveType(index)}
-									className={activeType === index ? 'active' : ''}
-								>
-									{typeNames[typeId]}
-								</li>
-							))
-						}
+						{types.map((typeId, index) => (
+							<li
+								key={typeId}
+								onClick={() => setActiveType(index)}
+								className={activeType === index ? 'active' : ''}
+							>
+								{typeNames[typeId]}
+							</li>
+						))}
 					</ul>
 					<ul>
 						{sizes.map((size, index) => (
